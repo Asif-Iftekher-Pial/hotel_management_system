@@ -41,7 +41,7 @@
                                     <td>{{ substr_replace($item->category_name, '...', 15) }}</td>
 
                                     <td><img style="width: 200px ; height:100px"
-                                            src="{{ asset('backend/category/images/' . $item->category_image) }}"
+                                            src="{{ asset('backend/images/category/' . $item->category_image) }}"
                                             alt="category image" srcset="">
                                     </td>
 
@@ -172,7 +172,6 @@
                                             <div id="thumb-outputTwo"></div>
                                             <div id="thumb-previous"></div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -192,6 +191,7 @@
 @section('backend_script')
     <script>
         $(document).ready(function() {
+            // edit
             $('.edit-button').click(function(e) {
                 e.preventDefault();
                 var id = $(this).val();
@@ -206,12 +206,12 @@
                         $('#description').val(response.description);
                         // $('.ok').val(response.category_image);
                         $('#thumb-previous').html(
-                            ' <img style="width:100px;height:100px" src="backend/category/images/' +
+                            ' <img style="width:100px;height:100px" src="backend/images/category/' +
                             response.category_image + '" >');
                     }
                 });
             });
-
+            // update
             $('#update_form').on('submit', function(e) {
                 e.preventDefault();
                 var id = $('#cat_id').val();
@@ -253,7 +253,7 @@
                 });
             });
 
-
+            // delete
             $(document).on('click', '.delete', function(e) {
                 e.preventDefault();
                 $('.delete').text('Deleting...');

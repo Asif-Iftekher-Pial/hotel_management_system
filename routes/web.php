@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\backend\CategoryController;
+use App\Http\Controllers\backend\EmployeeController;
 use App\Http\Controllers\backend\RoomController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,16 +17,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('backend.layouts.home.home');
-});
+
 
 // backend
 
-// Room
-Route::resource('/room',RoomController::class);
-Route::post('/room/status',[RoomController::class,'roomstatus'])->name('rStatus');
-Route::post('/room/availability',[RoomController::class,'availabilitystatus'])->name('availability');
+Route::group(['prefix' => 'app'], function () {
+    // Auth
+    Route::get('/login', [AuthController::class, 'loginIndex'])->name('loginIndex');
+    Route::post('/loginapp', [AuthController::class, 'doLogin'])->name('doLogin');
+    
 
-// Category
-Route::resource('/category', CategoryController::class);
+    Route::group(['middleware'=>'employee'],function(){
+        
+    Route::get('/', [AuthController::class, 'home'])->name('home');
+
+    // Room
+    Route::resource('/room', RoomController::class);
+    Route::post('/room/status', [RoomController::class, 'roomstatus'])->name('rStatus');
+    Route::post('/room/availability', [RoomController::class, 'availabilitystatus'])->name('availability');
+
+    // Category
+    Route::resource('/category', CategoryController::class);
+    // Employee
+    Route::resource('/employee', EmployeeController::class);
+    Route::get('/search/employee', [EmployeeController::class, 'filterEmployee'])->name('filterEmployee');
+    });
+
+
+});

@@ -52,7 +52,7 @@ class CategoryController extends Controller
             if ($request->file('category_image')) {
                 $file = $request->file('category_image');
                 $filename = date('Ymdhms') . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('backend/category/images/'), $filename);
+                $file->move(public_path('backend/images/category/'), $filename);
             }
             $category = new Category();
             $category->category_name    = $request->category_name;
@@ -128,8 +128,8 @@ class CategoryController extends Controller
             if ($request->file('category_image')) {
                 $file = $request->file('category_image');
                 $filename = date('Ymdhms') . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('backend/category/images/'), $filename);
-                @unlink(public_path('backend/category/images/' . $getcat->category_image));
+                $file->move(public_path('backend/images/category/'), $filename);
+                @unlink(public_path('backend/images/category/' . $getcat->category_image));
             }
             
            $data= $getcat->update([
@@ -156,7 +156,7 @@ class CategoryController extends Controller
     {
         $getData = Category::find($id);
         if ($getData) {
-            @unlink(public_path('backend/category/images/' .  $getData->category_image));
+            @unlink(public_path('backend/images/category/' .  $getData->category_image));
             $status =  $getData->delete();
             if ($status) {
                 return back();
